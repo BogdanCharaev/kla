@@ -1,0 +1,108 @@
+<html>
+<head>
+    <title>Аутентификация</title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        <p>Привет, {{ user.username }}! Вы авторизованы.</p>
+        <a href="{% url 'users:logout' %}">Выйти</a>
+    {% else %}
+    <form action="{% url 'users:login' %}" method="post"> 
+        <label for="username">Имя пользователя:</label>
+        <input type="text" id="username" name="username" required><br><br>
+      
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required><br><br>
+      
+        <input type="submit" value="Войти">
+        {% csrf_token %} 
+      </form>
+    {% endif %}
+    
+</body>
+</html>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 p-5">
+      <div class="card">
+        <div class="card-header">
+          Войти на сайт
+        </div>
+        <div class="card-body">
+          {% if form.errors %}
+              {% for field in form %}
+                {% for error in field.errors %}            
+                  <div class="alert alert-danger">
+                    {{ error|escape }}
+                  </div>
+                {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                  {{ error|escape }}
+                </div>
+              {% endfor %}
+          {% endif %}
+
+          <form method="post"
+            {% if action_url %}
+              action="{% url action_url %}"
+            {% endif %}
+          >
+          {% csrf_token %}
+
+          {% for field in form %}
+            <div class="form-group row my-3"
+              {% if field.field.required %} 
+                aria-required="true"
+              {% else %}
+                aria-required="false"
+              {% endif %}
+            >
+              <label for="{{ field.id_for_label }}">
+                {{ field.label }}
+                  {% if field.field.required %}
+                    <span class="required text-danger">*</span>
+                  {% endif %}
+              </label>
+              <div>
+              {{ field|addclass:'form-control' }}
+                {% if field.help_text %}
+                  <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
+                    {{ field.help_text|safe }}
+                  </small>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+          <div class="col-md-6 offset-md-4">
+            <button type="submit" class="btn btn-primary">
+              Войти
+            </button>
+            <!-- Тест на внимательность. Без переопределения шаблона этого адреса
+            не существует. Нужно что-то делать, иначе все упадет -->
+            
+          </div>
+          </form>
+        </div> <!-- card body -->
+      </div> <!-- card -->
+    </div> <!-- col -->
+</div> <!-- row -->
+</div>
+
+
+<body style="background: #f6f4ef; height: 100vh; ">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <div style="background-color: #18202b;" class="text-end p-2">
+          <button style="color: white;" type="button" class="btn fw-bold ">
+              <!-- Прописать путь -->
+              <img src="{% static 'img/exit.png' %}" alt="..." width="12x" height="12px">
+              Выйти
+          </button>
+  </div>
+  <!-- Прописать путь -->
+  <img src="{% static 'img/logo.svg' %}" alt="..." width="200px" height="100px">
+  <div style="background-color: #0b2d50;" class="p-3">
+      <span class="fw-bold text-white">Вы авторизовались как: </span>
+      <span class="fw-bold text-white">{{user.last_name}} {{user.first_name}} {{user.second_name}}</span>
+  </div>
