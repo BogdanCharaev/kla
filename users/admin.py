@@ -15,8 +15,11 @@ class UserAdmin(admin.ModelAdmin):
 
 #admin.site.register(User, UserAdmin)
 
-from users.models import Discipline, Lesson, Attendance, StudyGroup 
- 
+from users.models import Discipline, Lesson, Attendance, StudyGroup, AttendTimer
+
+class TimerAdmin(admin.ModelAdmin):
+    list_display = ('id', 'lesson', 'start_time')
+
 class DisciplineAdmin(admin.ModelAdmin): 
     list_display = ('id', 'title', ) 
  
@@ -32,7 +35,7 @@ class AttendanceAdmin(admin.ModelAdmin):
 class StudyGroupAdmin(admin.ModelAdmin): 
     list_display = ('id', 'group_name', 'course_number' ) 
  
-
+admin.site.register(AttendTimer,TimerAdmin)
 admin.site.register(StudyGroup,StudyGroupAdmin) 
 admin.site.register(Discipline, DisciplineAdmin) 
 admin.site.register(Lesson, LessonAdmin) 

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from datetime import datetime, timedelta
 
 class StudyGroup(models.Model): 
     group_name = models.CharField(max_length=150) 
@@ -97,6 +97,11 @@ class Lesson(models.Model):
         verbose_name = 'Пара'
         verbose_name_plural = 'Пары'
 
+class AttendTimer(models.Model):
+    start_time = models.DateTimeField(auto_now_add=True)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='timer', null=True, blank=True)
+    def __str__(self): 
+        return 'timer'
  
 class Attendance(models.Model): 
     lesson = models.ForeignKey( 

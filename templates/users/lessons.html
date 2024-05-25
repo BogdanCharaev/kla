@@ -1,6 +1,6 @@
-<!doctype html>
+{% load static %}<!doctype html>
 <html lang="en">
-    {% load static %}
+
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,9 +17,6 @@
               Выйти
           </button>
           </a>
-                <!-- Прописать путь -->
-            
-            
             
     </div>
     <!-- Прописать путь -->
@@ -30,35 +27,22 @@
     </div>
     <div class="container py-5">
         <div class="row justify-content-center">
+            
           <div class="col-md-8 p-5">
+            {% for lesson in lessons %}
             <div class="card">
                 <div class="card-header">
-                  Текущая пара: {{ actual_lesson }}
+                  {{ lesson }}
                 </div>
                 <div class="card-body">
-
-    <table class="table">
-
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Студент</th>
-            <th scope="col">Пара</th>
-            <th scope="col">Был не был</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for student, attendance in attendances.items %}
-            
-          <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td>{{student.first_name}} {{student.last_name}}</td>
-            <td>{{actual_lesson.start_time}} - {{end_t}}</td>
-            <td>{% if attendance %}<a class="btn btn-warning btn-sm" href="{% url 'users:remove_att_hd' actual_lesson.id student.id %}" role="button">Отменить отметку</a>{% else %}
-                <a class="btn btn-primary btn-sm" href="{% url 'users:create_att_hd' actual_lesson.id student.id %}" role="button">Отметить</a> {% endif %}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <a href="{% url 'users:profile' %}" class="btn btn-primary">Назад</a>
+                  <h5 class="card-title">{{ lesson.start_time }}</h5>
+                  <p class="card-text"> {{ lesson.place }}</p>
+                  <a href="{% url 'users:lesson_detail' lesson.id %}" class="btn btn-primary">Детали</a>
+                  {% if forloop.first %} <a href="{% url 'users:profile' %}" class="btn btn-primary">Выйти в профайл</a> {% endif %}
+                </div>
+              </div>
+            </br>
+              {% endfor %}
+      {# <a href="{% url 'users:profile' %}" class="btn btn-primary">Назад</a>#}
     </div></div></div></div></div>
+   

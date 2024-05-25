@@ -37,7 +37,12 @@
         <div class="card-body">
           <h5 class="card-title">{{ actual_lesson }}</h5>
           <p class="card-text">{{actual_lesson.start_time}} - {{end_t}} <br> {{ actual_lesson.place }} </p>
-          <a href="{% url 'users:teacher' %}" class="btn btn-primary">Отметить студентов</a> <a href="#" class="btn btn-primary">Начать перекличку</a>
+          <a href="{% url 'users:teacher' %}" class="btn btn-primary">Отметить студентов</a> 
+          <a href="{% url 'users:timer' actual_lesson.id %}" class="btn btn-primary">    Запустить таймер           
+</a>
+
+          
+          <a href="{% url 'users:lessons' %}" class="btn btn-primary">К списку пар</a>
         </div>
       </div>
       </div></div></div>
@@ -62,8 +67,14 @@
         <div class="card-body">
           <h5 class="card-title">{{ st_lesson }}</h5>
           <p class="card-text">{{st_lesson.start_time}} - {{end_t_st}} <br> {{ st_lesson.place }} </p>
+
+          {% if can_attend %}
           {% if att %} <a href="{% url 'users:remove_att_stud' st_lesson.id user.id %}" class="btn btn-warning">Удалить отметку</a>{% else %}<a href="{% url 'users:create_att_stud' st_lesson.id user.id %}" class="btn btn-primary">Отметиться</a>{%endif%}
+          {% else %}
+          Перекличка еще не началась
+          {% endif %}
         </div>
+
       </div>
       </div></div></div>
     </div>
